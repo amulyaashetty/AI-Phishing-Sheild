@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - AI Phishing Shield{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <h1>📈 Dashboard</h1>
+    <p class="subtitle">Overview of phishing detection activity</p>
+    
+    <!-- Key Metrics -->
+    <section class="dashboard-section">
+        <h2>Key Metrics</h2>
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-icon">📧</div>
+                <h3>Total Emails Analyzed</h3>
+                <p class="metric-value" id="metricTotal">0</p>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-icon">⚠️</div>
+                <h3>Average Risk Score</h3>
+                <p class="metric-value" id="metricAvgRisk">0%</p>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-icon">🔴</div>
+                <h3>Critical Detections</h3>
+                <p class="metric-value" id="metricCritical">0</p>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-icon">📊</div>
+                <h3>High Risk</h3>
+                <p class="metric-value" id="metricHigh">0</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Risk Distribution Chart -->
+    <section class="dashboard-section">
+        <h2>Risk Distribution</h2>
+        <div class="chart-container">
+            <canvas id="riskChart"></canvas>
+        </div>
+    </section>
+    
+    <!-- Recent Analyses -->
+    <section class="dashboard-section">
+        <h2>Recent Analyses</h2>
+        <div class="recent-list">
+            <table class="dashboard-table">
+                <thead>
+                    <tr>
+                        <th>Date/Time</th>
+                        <th>Risk Level</th>
+                        <th>Score</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="recentAnalysesBody">
+                    <tr>
+                        <td colspan="4" class="text-center">Loading recent analyses...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+    
+    <!-- Navigation -->
+    <div class="dashboard-nav">
+        <a href="{{ url_for('analyzer') }}" class="btn btn-primary">
+            Analyze Email
+        </a>
+        <a href="{{ url_for('history') }}" class="btn btn-secondary">
+            Full History
+        </a>
+    </div>
+</div>
+
+<!-- Chart Library -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='dashboard.js') }}"></script>
+{% endblock %}

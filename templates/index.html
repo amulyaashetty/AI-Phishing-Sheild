@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block title %}Home - AI Phishing Shield{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="hero-content">
+        <h1>🛡️ Protect Yourself from Phishing</h1>
+        <p class="subtitle">AI-Powered Phishing Detection & Cybersecurity Education</p>
+        
+        <div class="hero-description">
+            <p>
+                Phishing attacks are becoming more sophisticated. 
+                <strong>AI Phishing Shield</strong> analyzes emails and explains why they might be dangerous.
+            </p>
+        </div>
+        
+        <div class="cta-buttons">
+            <a href="{{ url_for('analyzer') }}" class="btn btn-primary">
+                Start Analyzing →
+            </a>
+            <a href="{{ url_for('education') }}" class="btn btn-secondary">
+                Learn About Phishing
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Features Section -->
+<section class="features">
+    <div class="container">
+        <h2>How It Works</h2>
+        
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📧</div>
+                <h3>Paste or Upload</h3>
+                <p>Paste email text or upload .txt/.eml files for analysis</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🔍</div>
+                <h3>Multi-Layer Detection</h3>
+                <p>Combines rule-based detection with AI analysis for accuracy</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🤖</div>
+                <h3>AI Reasoning</h3>
+                <p>AI explains why an email might be phishing</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Risk Score</h3>
+                <p>Get a percentage risk score and clear recommendations</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">💾</div>
+                <h3>History & Learning</h3>
+                <p>Track analyses and learn from patterns over time</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🎓</div>
+                <h3>Education</h3>
+                <p>Learn phishing indicators and how to stay safe</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Why Phishing is Dangerous -->
+<section class="why-phishing">
+    <div class="container">
+        <h2>Why Phishing is Dangerous</h2>
+        
+        <div class="danger-grid">
+            <div class="danger-item">
+                <h4>💰 Financial Loss</h4>
+                <p>Attackers steal banking credentials and money</p>
+            </div>
+            
+            <div class="danger-item">
+                <h4>🔐 Identity Theft</h4>
+                <p>Personal information used for fraud</p>
+            </div>
+            
+            <div class="danger-item">
+                <h4>💻 Malware</h4>
+                <p>Malicious attachments infect your device</p>
+            </div>
+            
+            <div class="danger-item">
+                <h4>🏢 Business Impact</h4>
+                <p>Ransomware attacks can shut down entire companies</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Quick Facts -->
+<section class="quick-facts">
+    <div class="container">
+        <h2>Quick Facts About Phishing</h2>
+        
+        <div class="facts-grid">
+            <div class="fact">
+                <strong>75%</strong>
+                <p>of companies experience phishing attacks annually</p>
+            </div>
+            
+            <div class="fact">
+                <strong>30%</strong>
+                <p>of phishing emails get opened by target users</p>
+            </div>
+            
+            <div class="fact">
+                <strong>12%</strong>
+                <p>of users click malicious links</p>
+            </div>
+            
+            <div class="fact">
+                <strong>3.4B</strong>
+                <p>phishing emails sent daily worldwide</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="cta-section">
+    <div class="container">
+        <h2>Ready to Analyze Your Emails?</h2>
+        <p>Protect yourself and your organization from phishing attacks</p>
+        <a href="{{ url_for('analyzer') }}" class="btn btn-large">
+            Start Analyzing Now
+        </a>
+    </div>
+</section>
+
+{% endblock %}

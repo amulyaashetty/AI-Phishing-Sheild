@@ -1,0 +1,210 @@
+{% extends "base.html" %}
+
+{% block title %}About - AI Phishing Shield{% endblock %}
+
+{% block content %}
+<div class="about-container">
+    <h1>About AI Phishing Shield</h1>
+    
+    <section class="about-section">
+        <h2>Project Overview</h2>
+        <p>
+            <strong>AI Phishing Shield</strong> is an educational cybersecurity tool designed to help 
+            students, employees, and organizations understand and detect phishing attacks.
+        </p>
+        <p>
+            This project combines traditional rule-based detection with modern AI analysis to provide 
+            comprehensive phishing detection and explanation.
+        </p>
+    </section>
+    
+    <section class="about-section">
+        <h2>Key Features</h2>
+        <ul>
+            <li><strong>Multi-Layer Detection:</strong> Combines regex patterns with AI analysis</li>
+            <li><strong>Risk Scoring:</strong> Provides numerical risk assessment (0-100%)</li>
+            <li><strong>AI Explanations:</strong> Uses AI to explain why email is suspicious</li>
+            <li><strong>Educational Focus:</strong> Teaches users about phishing indicators</li>
+            <li><strong>History Tracking:</strong> Stores analyses for learning and reference</li>
+            <li><strong>Multiple Input Methods:</strong> Paste text or upload files (.txt, .eml)</li>
+        </ul>
+    </section>
+    
+    <section class="about-section">
+        <h2>How It Works</h2>
+        
+        <div class="workflow-box">
+            <h3>1. Email Input</h3>
+            <p>User provides email content via text input or file upload</p>
+        </div>
+        
+        <div class="workflow-arrow">↓</div>
+        
+        <div class="workflow-box">
+            <h3>2. Email Parsing</h3>
+            <p>System extracts sender, subject, links, and other email components</p>
+        </div>
+        
+        <div class="workflow-arrow">↓</div>
+        
+        <div class="workflow-box">
+            <h3>3. Rule-Based Detection</h3>
+            <p>Regex patterns detect common phishing indicators</p>
+        </div>
+        
+        <div class="workflow-arrow">↓</div>
+        
+        <div class="workflow-box">
+            <h3>4. AI Analysis</h3>
+            <p>AI reads full email and provides contextual analysis</p>
+        </div>
+        
+        <div class="workflow-arrow">↓</div>
+        
+        <div class="workflow-box">
+            <h3>5. Combined Result</h3>
+            <p>System combines analyses into risk score and explanation</p>
+        </div>
+        
+        <div class="workflow-arrow">↓</div>
+        
+        <div class="workflow-box">
+            <h3>6. Database Storage</h3>
+            <p>Analysis saved for history and future learning</p>
+        </div>
+    </section>
+    
+    <section class="about-section">
+        <h2>Technology Stack</h2>
+        <div class="tech-grid">
+            <div class="tech-item">
+                <h4>Backend</h4>
+                <ul>
+                    <li>Python 3</li>
+                    <li>Flask (Web Framework)</li>
+                    <li>SQLite (Database)</li>
+                </ul>
+            </div>
+            
+            <div class="tech-item">
+                <h4>AI & Detection</h4>
+                <ul>
+                    <li>OpenAI API (GPT-3.5)</li>
+                    <li>Regular Expressions</li>
+                    <li>Pattern Matching</li>
+                </ul>
+            </div>
+            
+            <div class="tech-item">
+                <h4>Frontend</h4>
+                <ul>
+                    <li>HTML5</li>
+                    <li>CSS3</li>
+                    <li>JavaScript</li>
+                    <li>Chart.js</li>
+                </ul>
+            </div>
+            
+            <div class="tech-item">
+                <h4>Deployment</h4>
+                <ul>
+                    <li>Local/Docker</li>
+                    <li>Cloud Ready</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    
+    <section class="about-section">
+        <h2>Detection Methods</h2>
+        
+        <h3>Rule-Based Detection (40% weight)</h3>
+        <ul>
+            <li>Urgent language detection</li>
+            <li>Credential request patterns</li>
+            <li>Suspicious domain names</li>
+            <li>Malicious attachment detection</li>
+            <li>HTML form detection</li>
+            <li>Grammar error detection</li>
+        </ul>
+        
+        <h3>AI Analysis (60% weight)</h3>
+        <ul>
+            <li>Contextual understanding</li>
+            <li>Intent recognition</li>
+            <li>Social engineering detection</li>
+            <li>Emotional manipulation detection</li>
+            <li>Overall email assessment</li>
+        </ul>
+    </section>
+    
+    <section class="about-section">
+        <h2>Important Disclaimers</h2>
+        <div class="disclaimer-box">
+            <p>
+                <strong>⚠️ Educational Purpose:</strong> This tool is designed for educational learning 
+                about phishing attacks. It should not be the sole defense against phishing.
+            </p>
+            <p>
+                <strong>No Guarantee:</strong> No phishing detection system is 100% accurate. Always 
+                maintain healthy skepticism about emails.
+            </p>
+            <p>
+                <strong>Professional Solutions:</strong> Organizations should use enterprise-grade 
+                email security solutions in addition to user education.
+            </p>
+            <p>
+                <strong>No Legal Protection:</strong> Using this tool does not provide legal protection 
+                against phishing attacks. Report incidents to proper authorities.
+            </p>
+        </div>
+    </section>
+    
+    <section class="about-section">
+        <h2>Project Inspiration</h2>
+        <p>
+            This project was created as an educational platform for a 12th grade student to understand 
+            how cybersecurity tools work and how organizations can protect against phishing attacks.
+        </p>
+        <p>
+            The project demonstrates:
+        </p>
+        <ul>
+            <li>Full-stack web development (Frontend + Backend)</li>
+            <li>Database design and management</li>
+            <li>API integration (OpenAI)</li>
+            <li>Machine learning concepts (pattern recognition, AI analysis)</li>
+            <li>Security best practices</li>
+            <li>Educational technology</li>
+        </ul>
+    </section>
+    
+    <section class="about-section">
+        <h2>Contributing to Cybersecurity</h2>
+        <p>
+            Phishing awareness is the first line of defense against cyber attacks. By understanding 
+            how phishing works, you protect yourself, your family, and your organization.
+        </p>
+        <p>
+            Consider:
+        </p>
+        <ul>
+            <li>Sharing phishing awareness with friends and family</li>
+            <li>Reporting suspicious emails to your email provider</li>
+            <li>Taking cybersecurity training at your school or workplace</li>
+            <li>Staying updated on security best practices</li>
+        </ul>
+    </section>
+    
+    <section class="about-section cta-section">
+        <h2>Ready to Learn More?</h2>
+        <a href="{{ url_for('analyzer') }}" class="btn btn-primary">
+            Start Using AI Phishing Shield
+        </a>
+        <a href="{{ url_for('education') }}" class="btn btn-secondary">
+            Learn About Phishing
+        </a>
+    </section>
+</div>
+
+{% endblock %}

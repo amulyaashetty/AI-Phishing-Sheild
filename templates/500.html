@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Server Error - AI Phishing Shield{% endblock %}
+
+{% block content %}
+<div class="error-page">
+    <div class="error-content">
+        <h1 class="error-code">500</h1>
+        <h2>Server Error</h2>
+        <p>Sorry, something went wrong on our end. Please try again later.</p>
+        
+        <div class="error-navigation">
+            <a href="{{ url_for('home') }}" class="btn btn-primary">
+                Go to Home
+            </a>
+            <a href="{{ url_for('analyzer') }}" class="btn btn-secondary">
+                Try Analyzer Again
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+
+{% block title %}Analyzer - AI Phishing Shield{% endblock %}
+
+{% block content %}
+<div class="analyzer-container">
+    <h1>🔍 Email Phishing Analyzer</h1>
+    <p class="subtitle">Paste email content or upload a file for analysis</p>
+    
+    <!-- Input Section -->
+    <div class="analyzer-section">
+        <form id="analyzeForm" class="form-group">
+            <!-- Tab Navigation -->
+            <div class="input-tabs">
+                <button type="button" class="tab-button active" data-tab="paste">
+                    📝 Paste Email
+                </button>
+                <button type="button" class="tab-button" data-tab="upload">
+                    📤 Upload File
+                </button>
+            </div>
+            
+            <!-- Paste Tab -->
+            <div id="paste-tab" class="tab-content active">
+                <label for="emailText">Email Content:</label>
+                <textarea 
+                    id="emailText" 
+                    name="email_text" 
+                    placeholder="Paste your email text here... (Include sender, subject, and body)"
+                    rows="15"
+                    class="email-input">
+                </textarea>
+            </div>
+            
+            <!-- Upload Tab -->
+            <div id="upload-tab" class="tab-content">
+                <label for="emailFile">Upload Email File:</label>
+                <div class="file-upload">
+                    <input 
+                        type="file" 
+                        id="emailFile" 
+                        name="email_file"
+                        accept=".txt,.eml"
+                        class="file-input"
+                    >
+                    <p class="file-hint">Supported formats: .txt, .eml</p>
+                </div>
+            </div>
+            
+            <!-- Analyze Button -->
+            <div class="button-group">
+                <button type="submit" class="btn btn-primary btn-large">
+                    🚀 Analyze Email
+                </button>
+                <button type="reset" class="btn btn-secondary">
+                    Clear
+                </button>
+            </div>
+        </form>
+    </div>
+    
+    <!-- Loading Indicator -->
+    <div id="loadingIndicator" class="loading hidden">
+        <div class="spinner"></div>
+        <p>Analyzing your email...</p>
+    </div>
+    
+    <!-- Results Section -->
+    <div id="resultsSection" class="analyzer-section results-section hidden">
+        <!-- Risk Score Card -->
+        <div class="result-card risk-card" id="riskCard">
+            <h2>Risk Assessment</h2>
+            <div class="risk-score-display">
+                <div class="score-circle" id="scoreCircle"></div>
+                <div class="score-info">
+                    <div class="score-value" id="riskScore">0%</div>
+                    <div class="score-level" id="riskLevel">Unknown</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Detected Indicators -->
+        <div class="result-card indicators-card">
+            <h3>🚨 Detected Suspicious Indicators</h3>
+            <ul id="indicatorsList" class="indicators-list">
+            </ul>
+        </div>
+        
+        <!-- AI Explanation -->
+        <div class="result-card explanation-card">
+            <h3>🤖 AI Analysis</h3>
+            <p id="aiExplanation" class="explanation-text">
+            </p>
+        </div>
+        
+        <!-- Email Details -->
+        <div class="result-card details-card">
+            <h3>📧 Email Details</h3>
+            <table class="details-table">
+                <tr>
+                    <td>From:</td>
+                    <td id="detailSender">Unknown</td>
+                </tr>
+                <tr>
+                    <td>Subject:</td>
+                    <td id="detailSubject">No subject</td>
+                </tr>
+                <tr>
+                    <td>Links Found:</td>
+                    <td id="detailLinks">0</td>
+                </tr>
+                <tr>
+                    <td>Emails Found:</td>
+                    <td id="detailEmails">0</td>
+                </tr>
+            </table>
+        </div>
+        
+        <!-- Recommendations -->
+        <div class="result-card recommendations-card">
+            <h3>✅ What Should You Do?</h3>
+            <ol id="recommendationsList" class="recommendations-list">
+            </ol>
+        </div>
+        
+        <!-- Actions -->
+        <div class="result-actions">
+            <button id="analyzeAnotherBtn" class="btn btn-primary">
+                Analyze Another Email
+            </button>
+            <button id="viewHistoryBtn" class="btn btn-secondary">
+                View History
+            </button>
+        </div>
+    </div>
+    
+    <!-- Error Section -->
+    <div id="errorSection" class="analyzer-section error-section hidden">
+        <div class="alert alert-error">
+            <h3>⚠️ Error</h3>
+            <p id="errorMessage"></p>
+        </div>
+        <button class="btn btn-secondary" onclick="resetAnalyzer()">
+            Try Again
+        </button>
+    </div>
+</div>
+
+<!-- Sample Email Modal -->
+<div id="sampleModal" class="modal hidden">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeSampleModal()">&times;</span>
+        <h2>Sample Phishing Email</h2>
+        <p>This is a realistic phishing email example for testing:</p>
+        <pre id="sampleEmailContent"></pre>
+        <button class="btn btn-primary" onclick="loadSampleEmail()">
+            Load This Example
+        </button>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='analyzer.js') }}"></script>
+{% endblock %}
