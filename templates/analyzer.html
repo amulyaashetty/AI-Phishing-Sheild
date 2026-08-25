@@ -1,166 +1,341 @@
 {% extends "base.html" %}
 
-{% block title %}Analyzer - AI Phishing Shield{% endblock %}
+{% block header_title %}Email Phishing Detector{% endblock %}
+{% block header_subtitle %}Paste raw email content for instant phishing analysis{% endblock %}
+{% block header_status %}<span id="statusText">Ready</span>{% endblock %}
 
 {% block content %}
-<div class="analyzer-container">
-    <h1>🔍 Email Phishing Analyzer</h1>
-    <p class="subtitle">Paste email content or upload a file for analysis</p>
-    
-    <!-- Input Section -->
-    <div class="analyzer-section">
-        <form id="analyzeForm" class="form-group">
-            <!-- Tab Navigation -->
-            <div class="input-tabs">
-                <button type="button" class="tab-button active" data-tab="paste">
-                    📝 Paste Email
+<div class="detector-container">
+    <div class="analyzer-grid">
+        <!-- COLUMN 1: INPUT -->
+        <div class="input-section">
+            <h3>Email Content</h3>
+            <form id="analyzeForm">
+                <div class="form-group">
+                    <textarea
+                        id="emailText"
+                        name="email_text"
+                        class="form-textarea"
+                        placeholder="From: support@paypal-secure.com&#10;To: john.doe@gmail.com&#10;Subject: URGENT! Verify Your PayPal Account Now&#10;&#10;Dear PayPal Customer,&#10;&#10;Your PayPal account must be immediately verified to prevent suspension."></textarea>
+                </div>
+                <button type="submit" class="btn-analyze" id="analyzeBtn">
+                    <i class="fas fa-magnifying-glass"></i> Analyze Email
                 </button>
-                <button type="button" class="tab-button" data-tab="upload">
-                    📤 Upload File
+            </form>
+            <div class="input-hint">
+                Include From, To, Subject, and Body. The detector will analyze sender legitimacy, URLs, keywords, attachments, and run AI reasoning.
+            </div>
+        </div>
+
+        <!-- COLUMN 2: GAUGE + CONFIDENCE + ACTIONS -->
+        <div>
+            <div class="gauge-card">
+                <div class="risk-gauge">
+                    <div class="gauge-circle" id="gaugeCircle" style="--gauge-pct: 0;">
+                        <div class="gauge-inner">
+                            <div class="gauge-score" id="resultScore">0</div>
+                            <div class="gauge-max">/100</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="risk-level-badge" id="resultBadge">Unknown</div>
+                <div class="gauge-subtext" id="detectorsFlaggedText">Awaiting analysis</div>
+            </div>
+
+            <div class="confidence-box">
+                <div class="confidence-label">CONFIDENCE</div>
+                <div class="confidence-value" id="resultConfidence">-</div>
+                <div class="confidence-sub" id="confidenceSub">-</div>
+            </div>
+
+            <div class="action-buttons-col">
+                <button class="btn-action btn-danger" id="blockReportBtn">
+                    <i class="fas fa-ban"></i> Block &amp; Report
+                </button>
+                <button class="btn-action btn-default" id="saveHistoryBtn">
+                    <i class="fas fa-bookmark"></i> Save to History
                 </button>
             </div>
-            
-            <!-- Paste Tab -->
-            <div id="paste-tab" class="tab-content active">
-                <label for="emailText">Email Content:</label>
-                <textarea 
-                    id="emailText" 
-                    name="email_text" 
-                    placeholder="Paste your email text here... (Include sender, subject, and body)"
-                    rows="15"
-                    class="email-input">
-                </textarea>
-            </div>
-            
-            <!-- Upload Tab -->
-            <div id="upload-tab" class="tab-content">
-                <label for="emailFile">Upload Email File:</label>
-                <div class="file-upload">
-                    <input 
-                        type="file" 
-                        id="emailFile" 
-                        name="email_file"
-                        accept=".txt,.eml"
-                        class="file-input"
-                    >
-                    <p class="file-hint">Supported formats: .txt, .eml</p>
+        </div>
+
+        <!-- COLUMN 3: DETECTOR SCORES -->
+        <div class="detector-list-card">
+            <div class="detector-row" id="row-keyword">
+                <div class="detector-row-top">
+                    <span><i class="fas fa-key"></i> Keyword</span>
+                    <span class="flag-badge" style="display:none;">Flagged</span>
+                </div>
+                <div class="detector-row-bar"><div class="detector-row-bar-fill" style="width: 0%"></div></div>
+                <div class="detector-row-bottom">
+                    <span class="detector-row-desc">Awaiting analysis</span>
+                    <span class="detector-row-score">0/30</span>
                 </div>
             </div>
-            
-            <!-- Analyze Button -->
-            <div class="button-group">
-                <button type="submit" class="btn btn-primary btn-large">
-                    🚀 Analyze Email
-                </button>
-                <button type="reset" class="btn btn-secondary">
-                    Clear
-                </button>
+            <div class="detector-row" id="row-url">
+                <div class="detector-row-top">
+                    <span><i class="fas fa-link"></i> URL</span>
+                    <span class="flag-badge" style="display:none;">Flagged</span>
+                </div>
+                <div class="detector-row-bar"><div class="detector-row-bar-fill" style="width: 0%"></div></div>
+                <div class="detector-row-bottom">
+                    <span class="detector-row-desc">Awaiting analysis</span>
+                    <span class="detector-row-score">0/25</span>
+                </div>
             </div>
-        </form>
+            <div class="detector-row" id="row-regex">
+                <div class="detector-row-top">
+                    <span><i class="fas fa-code-compare"></i> Regex</span>
+                    <span class="flag-badge" style="display:none;">Flagged</span>
+                </div>
+                <div class="detector-row-bar"><div class="detector-row-bar-fill" style="width: 0%"></div></div>
+                <div class="detector-row-bottom">
+                    <span class="detector-row-desc">Awaiting analysis</span>
+                    <span class="detector-row-score">0/20</span>
+                </div>
+            </div>
+            <div class="detector-row" id="row-sender">
+                <div class="detector-row-top">
+                    <span><i class="fas fa-user-shield"></i> Sender</span>
+                    <span class="flag-badge" style="display:none;">Flagged</span>
+                </div>
+                <div class="detector-row-bar"><div class="detector-row-bar-fill" style="width: 0%"></div></div>
+                <div class="detector-row-bottom">
+                    <span class="detector-row-desc">Awaiting analysis</span>
+                    <span class="detector-row-score">0/20</span>
+                </div>
+            </div>
+            <div class="detector-row" id="row-attachment">
+                <div class="detector-row-top">
+                    <span><i class="fas fa-paperclip"></i> Attachment</span>
+                    <span class="flag-badge" style="display:none;">Flagged</span>
+                </div>
+                <div class="detector-row-bar"><div class="detector-row-bar-fill" style="width: 0%"></div></div>
+                <div class="detector-row-bottom">
+                    <span class="detector-row-desc">Awaiting analysis</span>
+                    <span class="detector-row-score">0/15</span>
+                </div>
+            </div>
+        </div>
     </div>
-    
-    <!-- Loading Indicator -->
-    <div id="loadingIndicator" class="loading hidden">
+
+    <!-- LOADING STATE -->
+    <div id="loadingState" class="loading" style="display: none; text-align:center; padding: 2rem;">
         <div class="spinner"></div>
-        <p>Analyzing your email...</p>
+        <p style="color: var(--gray-600); margin-top: 1rem;">Analyzing your email...</p>
     </div>
-    
-    <!-- Results Section -->
-    <div id="resultsSection" class="analyzer-section results-section hidden">
-        <!-- Risk Score Card -->
-        <div class="result-card risk-card" id="riskCard">
-            <h2>Risk Assessment</h2>
-            <div class="risk-score-display">
-                <div class="score-circle" id="scoreCircle"></div>
-                <div class="score-info">
-                    <div class="score-value" id="riskScore">0%</div>
-                    <div class="score-level" id="riskLevel">Unknown</div>
-                </div>
+
+    <!-- ERROR STATE -->
+    <div id="errorState" style="display: none;">
+        <div style="margin-top: 1.25rem; padding: 1rem; background-color: #fee2e2; border-left: 4px solid #dc2626; border-radius: 6px; color: #991b1b;">
+            <strong><i class="fas fa-circle-exclamation"></i> Error:</strong>
+            <span id="errorMessage"></span>
+        </div>
+    </div>
+
+    <!-- RESULTS: BELOW-GRID SECTIONS -->
+    <div id="resultsBelow" style="display: none;">
+        <div class="recommendation-banner" id="recommendationBanner">
+            <div class="recommendation-banner-title"><i class="fas fa-triangle-exclamation"></i> Recommendation</div>
+            <p id="recommendationText">Analyzing...</p>
+        </div>
+
+        <div class="panel-card" style="margin-top: 1.25rem;">
+            <h3 class="section-title"><i class="fas fa-triangle-exclamation"></i> Top Concerns</h3>
+            <div class="concerns-list" id="concernsList">
+                <div style="text-align: center; color: var(--gray-500);">No concerns detected</div>
             </div>
         </div>
-        
-        <!-- Detected Indicators -->
-        <div class="result-card indicators-card">
-            <h3>🚨 Detected Suspicious Indicators</h3>
-            <ul id="indicatorsList" class="indicators-list">
-            </ul>
+
+        <div class="panel-card" style="margin-top: 1.25rem;">
+            <h3 class="section-title"><i class="fas fa-circle-info"></i> AI Analysis</h3>
+            <div class="ai-analysis-section">
+                <div id="aiAnalysisList" style="display: none;">
+                    <div style="margin-bottom: 1rem;">
+                        <strong>• RISK LEVEL:</strong> <span id="aiRiskLevel"></span>
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                        <strong>• TOP 3 CONCERNS:</strong>
+                        <ul id="aiConcernsList" style="margin: 0.5rem 0 0 2rem; padding: 0;">
+                        </ul>
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                        <strong>• EXPLANATION:</strong> <span id="aiExplanation" style="display: block; margin-top: 0.5rem; color: var(--gray-700); line-height: 1.6;"></span>
+                    </div>
+                    <div>
+                        <strong>• RECOMMENDATION:</strong>
+                        <ul id="aiRecommendationList" style="margin: 0.5rem 0 0 2rem; padding: 0;">
+                        </ul>
+                    </div>
+                </div>
+                <div class="ai-analysis-text" id="aiAnalysisText">AI analysis pending...</div>
+            </div>
         </div>
-        
-        <!-- AI Explanation -->
-        <div class="result-card explanation-card">
-            <h3>🤖 AI Analysis</h3>
-            <p id="aiExplanation" class="explanation-text">
-            </p>
-        </div>
-        
-        <!-- Email Details -->
-        <div class="result-card details-card">
-            <h3>📧 Email Details</h3>
-            <table class="details-table">
-                <tr>
-                    <td>From:</td>
-                    <td id="detailSender">Unknown</td>
-                </tr>
-                <tr>
-                    <td>Subject:</td>
-                    <td id="detailSubject">No subject</td>
-                </tr>
-                <tr>
-                    <td>Links Found:</td>
-                    <td id="detailLinks">0</td>
-                </tr>
-                <tr>
-                    <td>Emails Found:</td>
-                    <td id="detailEmails">0</td>
-                </tr>
-            </table>
-        </div>
-        
-        <!-- Recommendations -->
-        <div class="result-card recommendations-card">
-            <h3>✅ What Should You Do?</h3>
-            <ol id="recommendationsList" class="recommendations-list">
-            </ol>
-        </div>
-        
-        <!-- Actions -->
-        <div class="result-actions">
-            <button id="analyzeAnotherBtn" class="btn btn-primary">
-                Analyze Another Email
-            </button>
-            <button id="viewHistoryBtn" class="btn btn-secondary">
-                View History
-            </button>
+
+        <div class="tip-banner">
+            <i class="fas fa-lightbulb"></i>
+            <div><strong>Phishing Indicator:</strong> <span id="tipText">Legitimate companies never ask you to verify passwords via email. Always navigate to official websites directly rather than clicking email links.</span></div>
         </div>
     </div>
+</div>
+
+<script>
+function riskClass(level) {
+    return (level || '').toLowerCase();
+}
+
+async function analyzeEmail(emailText) {
+    document.getElementById('loadingState').style.display = 'block';
+    document.getElementById('resultsBelow').style.display = 'none';
+    document.getElementById('errorState').style.display = 'none';
+    document.getElementById('statusText').textContent = 'Analyzing...';
+
+    try {
+        const response = await fetch('/api/analyze', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email_content: emailText })
+        });
+
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.error || 'Analysis failed');
+        }
+
+        const result = await response.json();
+        displayResults(result);
+    } catch (error) {
+        showAnalyzerError(error.message);
+    } finally {
+        document.getElementById('loadingState').style.display = 'none';
+    }
+}
+
+function displayResults(result) {
+    const level = riskClass(result.risk_level);
+    const score = Math.round(result.risk_score);
+
+    document.getElementById('statusText').textContent = 'Analyzed';
+
+    // Gauge
+    document.getElementById('resultScore').textContent = score;
+    const gaugeCircle = document.getElementById('gaugeCircle');
+    gaugeCircle.style.setProperty('--gauge-pct', score);
+    gaugeCircle.className = `gauge-circle ${level}`;
+
+    const badge = document.getElementById('resultBadge');
+    badge.textContent = result.risk_level;
+    badge.className = `risk-level-badge ${level}`;
+
+    document.getElementById('detectorsFlaggedText').textContent =
+        `${result.detectors_flagged} of ${result.total_detectors} detectors flagged this email`;
+
+    // Confidence
+    document.getElementById('resultConfidence').textContent = `${result.confidence_percentage}%`;
+    document.getElementById('confidenceSub').textContent = `${result.confidence} consensus`;
+
+    // Detector rows
+    updateDetectorRow('keyword', result.detectors.keyword);
+    updateDetectorRow('url', result.detectors.url);
+    updateDetectorRow('regex', result.detectors.regex);
+    updateDetectorRow('sender', result.detectors.sender);
+    updateDetectorRow('attachment', result.detectors.attachment);
+
+    // Recommendation
+    const banner = document.getElementById('recommendationBanner');
+    banner.className = `recommendation-banner ${level}`;
+    document.getElementById('recommendationText').textContent = result.recommendation || 'No recommendation available';
+
+    // Concerns
+    const concernsList = document.getElementById('concernsList');
+    if (result.concerns && result.concerns.length > 0) {
+        concernsList.innerHTML = result.concerns.map(c => `
+            <div class="concern-item ${c.severity.toLowerCase()}">
+                <i class="fas ${c.severity.toLowerCase() === 'high' ? 'fa-circle-exclamation' : 'fa-triangle-exclamation'}"></i>
+                <div>
+                    <div class="concern-title">${c.title}</div>
+                    <div class="concern-desc">${c.description}</div>
+                </div>
+            </div>
+        `).join('');
+    } else {
+        concernsList.innerHTML = '<div style="text-align:center; color: var(--gray-500);">No concerns detected</div>';
+    }
+
+    // AI analysis - Display as bullet points
+    const aiAnalysisContainer = document.getElementById('aiAnalysisList');
+    const aiAnalysisText = document.getElementById('aiAnalysisText');
     
-    <!-- Error Section -->
-    <div id="errorSection" class="analyzer-section error-section hidden">
-        <div class="alert alert-error">
-            <h3>⚠️ Error</h3>
-            <p id="errorMessage"></p>
-        </div>
-        <button class="btn btn-secondary" onclick="resetAnalyzer()">
-            Try Again
-        </button>
-    </div>
-</div>
+    if (result.top_concerns && result.top_concerns.length > 0) {
+        // Display structured bullet points
+        document.getElementById('aiRiskLevel').textContent = result.risk_level_text || result.risk_level;
+        
+        const concernsList = document.getElementById('aiConcernsList');
+        concernsList.innerHTML = result.top_concerns
+            .map(concern => `<li style="margin-bottom: 0.5rem; color: var(--gray-700);">${concern}</li>`)
+            .join('');
+        
+        document.getElementById('aiExplanation').textContent = result.explanation || 'See detailed analysis above';
+        
+        const recList = document.getElementById('aiRecommendationList');
+        const recommendations = result.recommendation_bullets || [result.recommendation] || [];
+        recList.innerHTML = recommendations
+            .filter(rec => rec)
+            .map(rec => `<li style="margin-bottom: 0.5rem; color: var(--gray-700);">${rec}</li>`)
+            .join('');
+        
+        aiAnalysisContainer.style.display = 'block';
+        aiAnalysisText.style.display = 'none';
+    } else {
+        // Fallback to plain text
+        aiAnalysisText.textContent = result.ai_explanation || 'No AI analysis available';
+        aiAnalysisContainer.style.display = 'none';
+        aiAnalysisText.style.display = 'block';
+    }
 
-<!-- Sample Email Modal -->
-<div id="sampleModal" class="modal hidden">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeSampleModal()">&times;</span>
-        <h2>Sample Phishing Email</h2>
-        <p>This is a realistic phishing email example for testing:</p>
-        <pre id="sampleEmailContent"></pre>
-        <button class="btn btn-primary" onclick="loadSampleEmail()">
-            Load This Example
-        </button>
-    </div>
-</div>
+    document.getElementById('resultsBelow').style.display = 'block';
+}
 
-{% endblock %}
+function updateDetectorRow(key, detector) {
+    const row = document.getElementById('row-' + key);
+    if (!row || !detector) return;
 
-{% block scripts %}
-<script src="{{ url_for('static', filename='analyzer.js') }}"></script>
+    const pct = Math.round((detector.score / detector.max) * 100);
+    let riskLevel = 'low';
+    if (pct > 66) riskLevel = 'high';
+    else if (pct > 33) riskLevel = 'moderate';
+
+    row.querySelector('.detector-row-bar-fill').style.width = pct + '%';
+    row.querySelector('.detector-row-bar-fill').className = `detector-row-bar-fill ${riskLevel}`;
+    row.querySelector('.detector-row-desc').textContent = detector.description;
+    row.querySelector('.detector-row-score').textContent = `${detector.score}/${detector.max}`;
+
+    const badge = row.querySelector('.flag-badge');
+    badge.style.display = detector.flagged ? 'inline-block' : 'none';
+}
+
+function showAnalyzerError(message) {
+    document.getElementById('statusText').textContent = 'Error';
+    document.getElementById('errorMessage').textContent = message;
+    document.getElementById('errorState').style.display = 'block';
+}
+
+// Form submission
+document.getElementById('analyzeForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const emailText = document.getElementById('emailText').value.trim();
+    if (!emailText) {
+        showAnalyzerError('Please paste email content first');
+        return;
+    }
+    analyzeEmail(emailText);
+});
+
+document.getElementById('saveHistoryBtn').addEventListener('click', () => {
+    window.location.href = '{{ url_for("history") }}';
+});
+
+document.getElementById('blockReportBtn').addEventListener('click', () => {
+    alert('Marked for blocking and reporting.');
+});
+</script>
 {% endblock %}
