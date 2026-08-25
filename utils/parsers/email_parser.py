@@ -164,3 +164,4 @@ class EmailParser:
             str: Cleaned email content
         """
         return self.cleaned_content
+
