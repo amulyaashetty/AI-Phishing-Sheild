@@ -123,3 +123,4 @@ function renderRiskChart(riskDistribution) {
         }
     });
 }
+
