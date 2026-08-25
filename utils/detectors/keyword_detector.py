@@ -138,3 +138,4 @@ class KeywordDetector:
         score += min(len(keywords_found['fear_tactics']) * 2, 6)
         
         return min(score, 30)  # Max 30 points
+
