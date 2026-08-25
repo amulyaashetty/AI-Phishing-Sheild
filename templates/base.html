@@ -4,40 +4,79 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}AI Phishing Shield{% endblock %}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <nav class="navbar">
-        <div class="container">
-            <div class="logo">
-                <h1>🛡️ AI Phishing Shield</h1>
+    <div class="container-main">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a href="{{ url_for('index') }}" class="logo">
+                    <span class="logo-icon"><i class="fas fa-shield-alt"></i></span>
+                    <span class="logo-text">AI-Phishing<br>Shield</span>
+                </a>
             </div>
-            <ul class="nav-links">
-                <li><a href="{{ url_for('home') }}">Home</a></li>
-                <li><a href="{{ url_for('analyzer') }}">Analyzer</a></li>
-                <li><a href="{{ url_for('history') }}">History</a></li>
-                <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
-                <li><a href="{{ url_for('education') }}">Learn</a></li>
-                <li><a href="{{ url_for('about') }}">About</a></li>
-            </ul>
-        </div>
-    </nav>
 
-    <!-- Main Content -->
-    <div class="main-container">
-        {% block content %}{% endblock %}
+            <nav class="sidebar-nav">
+                <a href="{{ url_for('dashboard') }}" class="nav-item {% if request.endpoint == 'dashboard' %}active{% endif %}">
+                    <i class="fas fa-th-large"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="{{ url_for('analyzer') }}" class="nav-item {% if request.endpoint == 'analyzer' %}active{% endif %}">
+                    <i class="fas fa-envelope"></i>
+                    <span>Email Detector</span>
+                </a>
+                <a href="#" class="nav-item disabled" title="Coming soon">
+                    <i class="fas fa-comment-sms"></i>
+                    <span>SMS Detector</span>
+                </a>
+                <a href="#" class="nav-item disabled" title="Coming soon">
+                    <i class="fas fa-link"></i>
+                    <span>URL Detector</span>
+                </a>
+                <a href="{{ url_for('history') }}" class="nav-item {% if request.endpoint == 'history' %}active{% endif %}">
+                    <i class="fas fa-clock-rotate-left"></i>
+                    <span>History</span>
+                </a>
+                <a href="{{ url_for('about') }}" class="nav-item {% if request.endpoint == 'about' %}active{% endif %}">
+                    <i class="fas fa-circle-info"></i>
+                    <span>About</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="#" class="nav-item disabled" title="Coming soon">
+                    <i class="fas fa-gear"></i>
+                    <span>Settings</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <header class="header">
+                <div class="header-left">
+                    <h1>{% block header_title %}Welcome{% endblock %}</h1>
+                    <p class="header-subtitle">{% block header_subtitle %}Intelligent Phishing Detection System{% endblock %}</p>
+                </div>
+                <div class="header-right">
+                    <div class="status-indicator">
+                        <span class="status-dot green"></span>
+                        <span>{% block header_status %}System Online{% endblock %}</span>
+                    </div>
+                    <button class="notification-btn"><i class="fas fa-bell"></i></button>
+                </div>
+            </header>
+
+            <main class="content">
+                {% block content %}{% endblock %}
+            </main>
+        </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2025 AI Phishing Shield. Educational cybersecurity tool.</p>
-            <p>Stay safe online! Report suspicious emails to your email provider.</p>
-        </div>
-    </footer>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
-    {% block scripts %}{% endblock %}
+    {% block extra_js %}{% endblock %}
 </body>
 </html>
