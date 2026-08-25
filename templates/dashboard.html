@@ -1,87 +1,213 @@
 {% extends "base.html" %}
 
-{% block title %}Dashboard - AI Phishing Shield{% endblock %}
+{% block header_title %}Dashboard{% endblock %}
+{% block header_subtitle %}Overview of phishing detection activity{% endblock %}
 
 {% block content %}
 <div class="dashboard-container">
-    <h1>📈 Dashboard</h1>
-    <p class="subtitle">Overview of phishing detection activity</p>
-    
-    <!-- Key Metrics -->
-    <section class="dashboard-section">
-        <h2>Key Metrics</h2>
-        <div class="metrics-grid">
-            <div class="metric-card">
-                <div class="metric-icon">📧</div>
-                <h3>Total Emails Analyzed</h3>
-                <p class="metric-value" id="metricTotal">0</p>
-            </div>
-            
-            <div class="metric-card">
-                <div class="metric-icon">⚠️</div>
-                <h3>Average Risk Score</h3>
-                <p class="metric-value" id="metricAvgRisk">0%</p>
-            </div>
-            
-            <div class="metric-card">
-                <div class="metric-icon">🔴</div>
-                <h3>Critical Detections</h3>
-                <p class="metric-value" id="metricCritical">0</p>
-            </div>
-            
-            <div class="metric-card">
-                <div class="metric-icon">📊</div>
-                <h3>High Risk</h3>
-                <p class="metric-value" id="metricHigh">0</p>
+    <!-- Welcome Box -->
+    <div class="welcome-box">
+        <div class="welcome-content">
+            <h2>Welcome to PhishShield</h2>
+            <p>Your intelligent phishing detection and prevention system powered by AI</p>
+            <div class="welcome-actions">
+                <a href="{{ url_for('analyzer') }}" class="btn btn-primary">
+                    <i class="fas fa-envelope"></i> Analyze Email
+                </a>
+                <a href="{{ url_for('history') }}" class="btn btn-secondary">
+                    <i class="fas fa-history"></i> View History
+                </a>
             </div>
         </div>
-    </section>
-    
-    <!-- Risk Distribution Chart -->
-    <section class="dashboard-section">
-        <h2>Risk Distribution</h2>
-        <div class="chart-container">
-            <canvas id="riskChart"></canvas>
+        <div class="welcome-icon">
+            <i class="fas fa-shield-alt"></i>
         </div>
-    </section>
-    
-    <!-- Recent Analyses -->
-    <section class="dashboard-section">
-        <h2>Recent Analyses</h2>
-        <div class="recent-list">
-            <table class="dashboard-table">
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon">📧</div>
+            <div class="stat-label">Total Emails</div>
+            <div class="stat-value" id="stat-total">0</div>
+            <div class="stat-change up" id="stat-total-change">No history yet</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">🎯</div>
+            <div class="stat-label">Detection Rate</div>
+            <div class="stat-value" id="stat-detection">0%</div>
+            <div class="stat-change up">Phishing detected</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">⚠️</div>
+            <div class="stat-label">High Risk</div>
+            <div class="stat-value" id="stat-high-risk">0</div>
+            <div class="stat-change down">Flagged emails</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">✅</div>
+            <div class="stat-label">Safe Emails</div>
+            <div class="stat-value" id="stat-safe">0</div>
+            <div class="stat-change up">Verified safe</div>
+        </div>
+    </div>
+
+    <!-- Detector Cards -->
+    <h2 style="font-size: 1.5rem; margin-bottom: 1.5rem; margin-top: 2rem;">Get Started</h2>
+    <div class="detector-grid">
+        <!-- Email Detector -->
+        <div class="detector-card detector-email">
+            <div class="detector-card-header">
+                <div class="detector-icon">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div>
+                    <div class="detector-title">Email Detector</div>
+                    <div class="detector-subtitle">Comprehensive email analysis</div>
+                </div>
+            </div>
+            <div class="detector-card-body">
+                <ul class="detector-features">
+                    <li>Sender verification</li>
+                    <li>URL analysis</li>
+                    <li>Attachment scanning</li>
+                    <li>AI-powered detection</li>
+                    <li>Risk scoring</li>
+                </ul>
+                <a href="{{ url_for('analyzer') }}" class="btn-block">
+                    <i class="fas fa-arrow-right"></i> Start Analysis
+                </a>
+            </div>
+        </div>
+
+        <!-- SMS Detector -->
+        <div class="detector-card detector-sms">
+            <div class="detector-card-header">
+                <div class="detector-icon">
+                    <i class="fas fa-sms"></i>
+                </div>
+                <div>
+                    <div class="detector-title">SMS Detector</div>
+                    <div class="detector-subtitle">Text message phishing detection</div>
+                </div>
+            </div>
+            <div class="detector-card-body">
+                <ul class="detector-features">
+                    <li>Link analysis</li>
+                    <li>Urgency detection</li>
+                    <li>Spoofing detection</li>
+                    <li>Offer validation</li>
+                    <li>Instant feedback</li>
+                </ul>
+                <button class="btn-block" disabled title="Coming soon">
+                    <i class="fas fa-lock"></i> Coming Soon
+                </button>
+            </div>
+        </div>
+
+        <!-- URL Detector -->
+        <div class="detector-card detector-url">
+            <div class="detector-card-header">
+                <div class="detector-icon">
+                    <i class="fas fa-link"></i>
+                </div>
+                <div>
+                    <div class="detector-title">URL Checker</div>
+                    <div class="detector-subtitle">Website and URL validation</div>
+                </div>
+            </div>
+            <div class="detector-card-body">
+                <ul class="detector-features">
+                    <li>Domain legitimacy</li>
+                    <li>SSL verification</li>
+                    <li>Reputation scoring</li>
+                    <li>Brand impersonation</li>
+                    <li>Redirects tracking</li>
+                </ul>
+                <button class="btn-block" disabled title="Coming soon">
+                    <i class="fas fa-lock"></i> Coming Soon
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Analyses Section -->
+    <div style="margin-top: 3rem;">
+        <h2 style="font-size: 1.5rem; margin-bottom: 1.5rem;">Recent Analyses</h2>
+        <div class="history-container">
+            <table class="history-table">
                 <thead>
                     <tr>
-                        <th>Date/Time</th>
+                        <th>Date & Time</th>
                         <th>Risk Level</th>
                         <th>Score</th>
-                        <th>Action</th>
+                        <th>Details</th>
                     </tr>
                 </thead>
                 <tbody id="recentAnalysesBody">
                     <tr>
-                        <td colspan="4" class="text-center">Loading recent analyses...</td>
+                        <td colspan="4" style="text-align: center; padding: 2rem; color: var(--gray-500);">
+                            No analyses yet. Start by analyzing an email!
+                        </td>
                     </tr>
                 </tbody>
             </table>
         </div>
-    </section>
-    
-    <!-- Navigation -->
-    <div class="dashboard-nav">
-        <a href="{{ url_for('analyzer') }}" class="btn btn-primary">
-            Analyze Email
-        </a>
-        <a href="{{ url_for('history') }}" class="btn btn-secondary">
-            Full History
-        </a>
     </div>
 </div>
 
-<!-- Chart Library -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-{% endblock %}
+<script>
+    // Load dashboard stats
+    async function loadDashboardStats() {
+        try {
+            const response = await fetch('/api/stats');
+            if (!response.ok) throw new Error('Failed to load stats');
+            
+            const data = await response.json();
+            
+            // Update stat cards
+            document.getElementById('stat-total').textContent = data.total || 0;
+            document.getElementById('stat-detection').textContent = (data.detection_rate || 0) + '%';
+            document.getElementById('stat-high-risk').textContent = data.high_risk || 0;
+            document.getElementById('stat-safe').textContent = data.safe || 0;
+            
+            // Load recent analyses
+            loadRecentAnalyses();
+        } catch (error) {
+            console.error('Error loading stats:', error);
+        }
+    }
 
-{% block scripts %}
-<script src="{{ url_for('static', filename='dashboard.js') }}"></script>
+    async function loadRecentAnalyses() {
+        try {
+            const response = await fetch('/api/analyses?limit=5');
+            if (!response.ok) throw new Error('Failed to load analyses');
+            
+            const analyses = await response.json();
+            const tbody = document.getElementById('recentAnalysesBody');
+            
+            if (analyses.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 2rem; color: var(--gray-500);">No analyses yet. Start by analyzing an email!</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = analyses.map(a => `
+                <tr>
+                    <td>${new Date(a.timestamp).toLocaleString()}</td>
+                    <td><span class="badge ${a.risk_level.toLowerCase()}">${a.risk_level}</span></td>
+                    <td><strong>${Math.round(a.risk_score)}</strong>/100</td>
+                    <td><a href="#" style="color: var(--primary-blue); text-decoration: none;">View Details →</a></td>
+                </tr>
+            `).join('');
+        } catch (error) {
+            console.error('Error loading analyses:', error);
+        }
+    }
+
+    // Load on page load
+    document.addEventListener('DOMContentLoaded', loadDashboardStats);
+</script>
 {% endblock %}
