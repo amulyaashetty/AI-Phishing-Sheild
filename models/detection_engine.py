@@ -109,14 +109,15 @@ class PhishingDetectionEngine:
             extracted_info,
             confidence,
             sender_analysis,
-            attachment_analysis
+            attachment_analysis,
+            scores_dict
         )
         
         return final_analysis
     
     def _compile_final_analysis(self, risk_score, risk_level, regex_summary, 
                                 ai_analysis, keywords, urls, email_info, confidence,
-                                sender_analysis, attachment_analysis):
+                                sender_analysis, attachment_analysis, scores_dict):
         """
         Compile all detection results into final analysis.
         
@@ -181,6 +182,7 @@ class PhishingDetectionEngine:
             'detected_indicators': all_indicators,
             'ai_explanation': ai_analysis.get('ai_explanation', ''),
             'recommendations': recommendations,
+            'scores': scores_dict,
             'email_details': {
                 'sender': email_info.get('sender', 'Unknown'),
                 'subject': email_info.get('subject', 'No subject'),
@@ -261,12 +263,17 @@ class PhishingDetectionEngine:
             recommendations.append("⛔ DO NOT click any links or download attachments")
             recommendations.append("⛔ DO NOT reply to this email")
             recommendations.append("⛔ DO NOT provide any personal information")
+            recommendations.append("🚨 Report immediately to your email provider")
         elif risk_level == 'High':
             recommendations.append("❌ Be very cautious with links and attachments")
             recommendations.append("❌ Verify sender identity through official channels")
+            recommendations.append("📧 Report this email as phishing to your email provider")
         elif risk_level == 'Moderate':
             recommendations.append("⚠️ Review email carefully before taking action")
             recommendations.append("⚠️ Check sender email address closely")
+        elif risk_level == 'Low':
+            recommendations.append("✅ This email appears legitimate")
+            recommendations.append("💡 Always verify sender identity if you have any doubts")
         
         # Specific recommendations based on indicators
         has_urgency = any('urgent' in str(ind).lower() for ind in indicators)
@@ -284,9 +291,6 @@ class PhishingDetectionEngine:
         if has_links:
             recommendations.append("🔗 Hover over links to see the real URL (don't click)")
             recommendations.append("🔗 If suspicious, visit the official website directly")
-        
-        recommendations.append("📧 Report this email as phishing to your email provider")
-        recommendations.append("💡 When in doubt, contact the organization directly")
         
         # Remove duplicates while preserving order
         seen = set()
