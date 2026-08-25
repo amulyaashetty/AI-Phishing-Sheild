@@ -170,3 +170,4 @@ class URLDetector:
         score += min(url_analysis['suspicion_count'] * 5, 25)
         
         return score
+
