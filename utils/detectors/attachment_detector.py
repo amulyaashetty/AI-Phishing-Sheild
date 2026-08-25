@@ -45,6 +45,7 @@ class AttachmentDetector:
             'doc',   # Word document
             'xls',   # Excel spreadsheet
             'ppt',   # PowerPoint
+            'csv',  # Comma-separated values
         ]
         
         # LOW RISK: Generally safe
