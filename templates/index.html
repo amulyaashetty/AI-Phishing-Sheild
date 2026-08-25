@@ -1,143 +1,118 @@
 {% extends "base.html" %}
 
-{% block title %}Home - AI Phishing Shield{% endblock %}
+{% block header_title %}Welcome to PhishShield{% endblock %}
+{% block header_subtitle %}Intelligent phishing detection powered by AI{% endblock %}
 
 {% block content %}
-<div class="hero-section">
-    <div class="hero-content">
-        <h1>🛡️ Protect Yourself from Phishing</h1>
-        <p class="subtitle">AI-Powered Phishing Detection & Cybersecurity Education</p>
-        
-        <div class="hero-description">
-            <p>
-                Phishing attacks are becoming more sophisticated. 
-                <strong>AI Phishing Shield</strong> analyzes emails and explains why they might be dangerous.
+<div style="max-width: 1200px; margin: 0 auto;">
+    <!-- HERO SECTION -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; margin-bottom: 4rem;">
+        <div>
+            <h1 style="font-size: 2.5rem; margin-bottom: 1rem; line-height: 1.2;">
+                Detect Phishing Emails with AI
+            </h1>
+            <p style="font-size: 1.125rem; color: var(--gray-700); line-height: 1.8; margin-bottom: 2rem;">
+                PhishShield uses advanced machine learning and pattern recognition to identify 
+                phishing attacks before they can harm you. Analyze emails instantly and learn how 
+                to stay safe online.
             </p>
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                <a href="{{ url_for('analyzer') }}" class="btn btn-primary" style="padding: 1rem 2rem; font-size: 1rem;">
+                    <i class="fas fa-rocket"></i> Start Analyzing
+                </a>
+                <a href="{{ url_for('dashboard') }}" class="btn btn-secondary" style="padding: 1rem 2rem; font-size: 1rem;">
+                    <i class="fas fa-chart-line"></i> View Dashboard
+                </a>
+            </div>
         </div>
-        
-        <div class="cta-buttons">
-            <a href="{{ url_for('analyzer') }}" class="btn btn-primary">
-                Start Analyzing →
-            </a>
-            <a href="{{ url_for('education') }}" class="btn btn-secondary">
-                Learn About Phishing
-            </a>
-        </div>
-    </div>
-</div>
-
-<!-- Features Section -->
-<section class="features">
-    <div class="container">
-        <h2>How It Works</h2>
-        
-        <div class="feature-grid">
-            <div class="feature-card">
-                <div class="feature-icon">📧</div>
-                <h3>Paste or Upload</h3>
-                <p>Paste email text or upload .txt/.eml files for analysis</p>
-            </div>
-            
-            <div class="feature-card">
-                <div class="feature-icon">🔍</div>
-                <h3>Multi-Layer Detection</h3>
-                <p>Combines rule-based detection with AI analysis for accuracy</p>
-            </div>
-            
-            <div class="feature-card">
-                <div class="feature-icon">🤖</div>
-                <h3>AI Reasoning</h3>
-                <p>AI explains why an email might be phishing</p>
-            </div>
-            
-            <div class="feature-card">
-                <div class="feature-icon">📊</div>
-                <h3>Risk Score</h3>
-                <p>Get a percentage risk score and clear recommendations</p>
-            </div>
-            
-            <div class="feature-card">
-                <div class="feature-icon">💾</div>
-                <h3>History & Learning</h3>
-                <p>Track analyses and learn from patterns over time</p>
-            </div>
-            
-            <div class="feature-card">
-                <div class="feature-icon">🎓</div>
-                <h3>Education</h3>
-                <p>Learn phishing indicators and how to stay safe</p>
+        <div style="text-align: center;">
+            <div style="font-size: 8rem; opacity: 0.5;">
+                <i class="fas fa-shield-alt"></i>
             </div>
         </div>
     </div>
-</section>
 
-<!-- Why Phishing is Dangerous -->
-<section class="why-phishing">
-    <div class="container">
-        <h2>Why Phishing is Dangerous</h2>
-        
-        <div class="danger-grid">
-            <div class="danger-item">
-                <h4>💰 Financial Loss</h4>
-                <p>Attackers steal banking credentials and money</p>
+    <!-- FEATURES SECTION -->
+    <div style="margin-bottom: 4rem;">
+        <h2 style="text-align: center; font-size: 2rem; margin-bottom: 3rem;">Key Features</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
+            <!-- Feature 1 -->
+            <div style="background: white; padding: 2rem; border-radius: var(--radius); box-shadow: var(--shadow);">
+                <div style="font-size: 2.5rem; margin-bottom: 1rem;">
+                    <i class="fas fa-brain" style="color: var(--primary-blue);"></i>
+                </div>
+                <h3 style="margin-bottom: 0.75rem;">AI-Powered Detection</h3>
+                <p style="color: var(--gray-600);">
+                    Leverages Mistral AI to intelligently analyze emails and identify sophisticated phishing attempts.
+                </p>
             </div>
-            
-            <div class="danger-item">
-                <h4>🔐 Identity Theft</h4>
-                <p>Personal information used for fraud</p>
+
+            <!-- Feature 2 -->
+            <div style="background: white; padding: 2rem; border-radius: var(--radius); box-shadow: var(--shadow);">
+                <div style="font-size: 2.5rem; margin-bottom: 1rem;">
+                    <i class="fas fa-code-branch" style="color: var(--warning-orange);"></i>
+                </div>
+                <h3 style="margin-bottom: 0.75rem;">Multiple Detection Methods</h3>
+                <p style="color: var(--gray-600);">
+                    Combines 6 independent detectors for comprehensive analysis.
+                </p>
             </div>
-            
-            <div class="danger-item">
-                <h4>💻 Malware</h4>
-                <p>Malicious attachments infect your device</p>
+
+            <!-- Feature 3 -->
+            <div style="background: white; padding: 2rem; border-radius: var(--radius); box-shadow: var(--shadow);">
+                <div style="font-size: 2.5rem; margin-bottom: 1rem;">
+                    <i class="fas fa-database" style="color: var(--success-green);"></i>
+                </div>
+                <h3 style="margin-bottom: 0.75rem;">No API Keys Required</h3>
+                <p style="color: var(--gray-600);">
+                    Runs completely locally with Ollama. Your data stays private.
+                </p>
             </div>
-            
-            <div class="danger-item">
-                <h4>🏢 Business Impact</h4>
-                <p>Ransomware attacks can shut down entire companies</p>
+
+            <!-- Feature 4 -->
+            <div style="background: white; padding: 2rem; border-radius: var(--radius); box-shadow: var(--shadow);">
+                <div style="font-size: 2.5rem; margin-bottom: 1rem;">
+                    <i class="fas fa-chart-pie" style="color: var(--danger-red);"></i>
+                </div>
+                <h3 style="margin-bottom: 0.75rem;">Detailed Score Breakdown</h3>
+                <p style="color: var(--gray-600);">
+                    Get complete analysis with scores from each detector.
+                </p>
+            </div>
+
+            <!-- Feature 5 -->
+            <div style="background: white; padding: 2rem; border-radius: var(--radius); box-shadow: var(--shadow);">
+                <div style="font-size: 2.5rem; margin-bottom: 1rem;">
+                    <i class="fas fa-history" style="color: #3b82f6;"></i>
+                </div>
+                <h3 style="margin-bottom: 0.75rem;">Analysis History</h3>
+                <p style="color: var(--gray-600);">
+                    Track all your analyses over time.
+                </p>
+            </div>
+
+            <!-- Feature 6 -->
+            <div style="background: white; padding: 2rem; border-radius: var(--radius); box-shadow: var(--shadow);">
+                <div style="font-size: 2.5rem; margin-bottom: 1rem;">
+                    <i class="fas fa-graduation-cap" style="color: #8b5cf6;"></i>
+                </div>
+                <h3 style="margin-bottom: 0.75rem;">Educational Resource</h3>
+                <p style="color: var(--gray-600);">
+                    Perfect for learning cybersecurity.
+                </p>
             </div>
         </div>
     </div>
-</section>
 
-<!-- Quick Facts -->
-<section class="quick-facts">
-    <div class="container">
-        <h2>Quick Facts About Phishing</h2>
-        
-        <div class="facts-grid">
-            <div class="fact">
-                <strong>75%</strong>
-                <p>of companies experience phishing attacks annually</p>
-            </div>
-            
-            <div class="fact">
-                <strong>30%</strong>
-                <p>of phishing emails get opened by target users</p>
-            </div>
-            
-            <div class="fact">
-                <strong>12%</strong>
-                <p>of users click malicious links</p>
-            </div>
-            
-            <div class="fact">
-                <strong>3.4B</strong>
-                <p>phishing emails sent daily worldwide</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Call to Action -->
-<section class="cta-section">
-    <div class="container">
-        <h2>Ready to Analyze Your Emails?</h2>
-        <p>Protect yourself and your organization from phishing attacks</p>
-        <a href="{{ url_for('analyzer') }}" class="btn btn-large">
-            Start Analyzing Now
+    <\!-- CALL TO ACTION -->
+    <div style="text-align: center; padding: 3rem; background: var(--gray-100); border-radius: var(--radius); margin-bottom: 2rem;">
+        <h2 style="margin-bottom: 1rem;">Ready to Protect Yourself?</h2>
+        <p style="color: var(--gray-700); margin-bottom: 2rem; font-size: 1.1rem;">
+            Start analyzing emails and learn how to identify phishing attempts.
+        </p>
+        <a href="{{ url_for('analyzer') }}" class="btn btn-primary" style="padding: 1rem 2.5rem; font-size: 1rem;">
+            <i class="fas fa-shield-alt"></i> Analyze Your First Email
         </a>
     </div>
-</section>
-
+</div>
 {% endblock %}
