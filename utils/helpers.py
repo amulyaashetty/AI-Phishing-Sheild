@@ -293,3 +293,4 @@ class RenderHelpers:
             'Critical': 'risk-critical'
         }
         return classes.get(risk_level, 'risk-unknown')
+
