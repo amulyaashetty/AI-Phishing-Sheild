@@ -253,3 +253,4 @@ function showHistoryError(message) {
     const tbody = document.getElementById('historyTableBody');
     tbody.innerHTML = `<tr><td colspan="6" class="text-center error">${message}</td></tr>`;
 }
+
