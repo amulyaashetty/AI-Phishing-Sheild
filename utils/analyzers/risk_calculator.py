@@ -206,3 +206,4 @@ class RiskCalculator:
                 return False, f'{score_name} out of range: {score}'
         
         return True, 'All scores valid'
+
