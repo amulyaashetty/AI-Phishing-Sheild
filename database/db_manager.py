@@ -48,6 +48,13 @@ class DatabaseManager:
             )
         ''')
         
+        # Migrate older databases that predate the sender/subject columns
+        existing_columns = {row[1] for row in cursor.execute('PRAGMA table_info(phishing_analysis)')}
+        if 'sender' not in existing_columns:
+            cursor.execute('ALTER TABLE phishing_analysis ADD COLUMN sender TEXT')
+        if 'subject' not in existing_columns:
+            cursor.execute('ALTER TABLE phishing_analysis ADD COLUMN subject TEXT')
+        
         conn.commit()
         conn.close()
     
@@ -74,12 +81,13 @@ class DatabaseManager:
         # Convert lists to JSON strings for storage
         indicators_json = json.dumps(analysis_data.get('detected_indicators', []))
         recommendations_json = json.dumps(analysis_data.get('recommendations', []))
+        email_details = analysis_data.get('email_details', {}) or {}
         
         cursor.execute('''
             INSERT INTO phishing_analysis 
             (analysis_type, input_content, risk_score, risk_level, 
-             detected_indicators, ai_explanation, recommendations)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
+             detected_indicators, ai_explanation, recommendations, sender, subject)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         ''', (
             analysis_data.get('analysis_type', 'email'),
             analysis_data.get('input_content', ''),
@@ -87,7 +95,9 @@ class DatabaseManager:
             analysis_data.get('risk_level', 'Unknown'),
             indicators_json,
             analysis_data.get('ai_explanation', ''),
-            recommendations_json
+            recommendations_json,
+            email_details.get('sender', 'Unknown'),
+            email_details.get('subject', '(no subject)')
         ))
         
         conn.commit()
@@ -111,7 +121,7 @@ class DatabaseManager:
         
         cursor.execute('''
             SELECT id, analysis_type, risk_score, risk_level, 
-                   created_at, input_content
+                   created_at, input_content, sender, subject
             FROM phishing_analysis
             ORDER BY created_at DESC
             LIMIT ?
@@ -129,7 +139,9 @@ class DatabaseManager:
                 'risk_score': row[2],
                 'risk_level': row[3],
                 'created_at': row[4],
-                'input_content': row[5][:100]  # First 100 chars for preview
+                'input_content': row[5][:100],  # First 100 chars for preview
+                'sender': row[6] or 'Unknown',
+                'subject': row[7] or '(no subject)'
             })
         
         return analyses
@@ -150,7 +162,7 @@ class DatabaseManager:
         cursor.execute('''
             SELECT id, analysis_type, input_content, risk_score, 
                    risk_level, detected_indicators, ai_explanation, 
-                   recommendations, created_at
+                   recommendations, created_at, sender, subject
             FROM phishing_analysis
             WHERE id = ?
         ''', (analysis_id,))
@@ -170,7 +182,9 @@ class DatabaseManager:
             'detected_indicators': json.loads(result[5]),
             'ai_explanation': result[6],
             'recommendations': json.loads(result[7]),
-            'created_at': result[8]
+            'created_at': result[8],
+            'sender': result[9] or 'Unknown',
+            'subject': result[10] or '(no subject)'
         }
     
     def get_statistics(self):
@@ -227,3 +241,6 @@ class DatabaseManager:
         conn.close()
         
         return success
+
+
+
