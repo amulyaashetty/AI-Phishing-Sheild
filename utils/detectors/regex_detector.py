@@ -268,3 +268,4 @@ class RegexDetector:
             summary.append("✏️ Contains grammatical errors")
         
         return summary
+
