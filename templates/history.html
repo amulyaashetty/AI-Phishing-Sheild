@@ -1,101 +1,248 @@
 {% extends "base.html" %}
 
-{% block title %}History - AI Phishing Shield{% endblock %}
+{% block header_title %}Analysis History{% endblock %}
+{% block header_subtitle %}Review all previous phishing analyses{% endblock %}
 
 {% block content %}
-<div class="history-container">
-    <h1>📊 Analysis History</h1>
-    <p class="subtitle">Review past analyses and patterns</p>
-    
-    <!-- Statistics Section -->
-    <div class="stats-section">
-        <h2>Overall Statistics</h2>
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-value" id="totalAnalyses">0</div>
-                <div class="stat-label">Total Analyses</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="avgRiskScore">0%</div>
-                <div class="stat-label">Average Risk Score</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="criticalCount">0</div>
-                <div class="stat-label">Critical Threats</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="highCount">0</div>
-                <div class="stat-label">High Risk</div>
-            </div>
+<div class="detector-container">
+    <!-- STATISTICS CARDS -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon">📧</div>
+            <div class="stat-label">Total Analyses</div>
+            <div class="stat-value" id="totalCount">0</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">⚠️</div>
+            <div class="stat-label">Average Risk</div>
+            <div class="stat-value" id="avgRisk">0%</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">🚨</div>
+            <div class="stat-label">High Risk Found</div>
+            <div class="stat-value" id="highRiskCount">0</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">✅</div>
+            <div class="stat-label">Safe Emails</div>
+            <div class="stat-value" id="safeCount">0</div>
         </div>
     </div>
-    
-    <!-- Filters -->
-    <div class="filter-section">
-        <input 
-            type="text" 
-            id="searchInput" 
-            placeholder="Search in history..."
-            class="search-input"
-        >
-        <select id="riskLevelFilter" class="filter-select">
-            <option value="">All Risk Levels</option>
-            <option value="Low">Low</option>
-            <option value="Moderate">Moderate</option>
-            <option value="High">High</option>
-            <option value="Critical">Critical</option>
-        </select>
+
+    <!-- FILTERS -->
+    <div class="input-section" style="margin-top: 2rem;">
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+            <div style="flex: 1; min-width: 200px;">
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    placeholder="Search by sender, subject..."
+                    style="width: 100%; padding: 0.875rem; border: 1px solid var(--gray-300); border-radius: var(--radius-sm);"
+                >
+            </div>
+            <select id="riskFilter" style="padding: 0.875rem; border: 1px solid var(--gray-300); border-radius: var(--radius-sm); min-width: 150px;">
+                <option value="">All Risk Levels</option>
+                <option value="Low">Low Risk</option>
+                <option value="Moderate">Moderate Risk</option>
+                <option value="High">High Risk</option>
+                <option value="Critical">Critical Risk</option>
+            </select>
+            <button onclick="resetFilters()" style="padding: 0.875rem 1.5rem; background: var(--gray-200); border: none; border-radius: var(--radius-sm); cursor: pointer; font-weight: 600;">
+                Clear Filters
+            </button>
+        </div>
     </div>
-    
-    <!-- Analysis History Table -->
-    <div class="table-container">
+
+    <!-- HISTORY TABLE -->
+    <div class="history-container" style="margin-top: 2rem;">
         <table class="history-table">
             <thead>
                 <tr>
-                    <th>Date</th>
-                    <th>Type</th>
-                    <th>Risk Score</th>
-                    <th>Risk Level</th>
-                    <th>Preview</th>
-                    <th>Actions</th>
+                    <th style="width: 180px;">Date & Time</th>
+                    <th style="width: 200px;">Sender</th>
+                    <th style="width: 300px;">Subject</th>
+                    <th style="width: 80px;">Risk Score</th>
+                    <th style="width: 100px;">Risk Level</th>
+                    <th style="width: 80px;">Action</th>
                 </tr>
             </thead>
-            <tbody id="historyTableBody">
-                <tr class="loading-row">
-                    <td colspan="6" class="text-center">Loading history...</td>
+            <tbody id="historyBody">
+                <tr>
+                    <td colspan="6" style="text-align: center; padding: 2rem; color: var(--gray-500);">
+                        <div class="spinner" style="width: 30px; height: 30px; margin: 0 auto 1rem;"></div>
+                        Loading history...
+                    </td>
                 </tr>
             </tbody>
         </table>
     </div>
-    
-    <!-- No Results Message -->
-    <div id="noResultsMessage" class="no-results hidden">
-        <p>No analyses found. <a href="{{ url_for('analyzer') }}">Start analyzing emails</a></p>
-    </div>
-    
-    <!-- Action Buttons -->
-    <div class="history-actions">
-        <a href="{{ url_for('analyzer') }}" class="btn btn-primary">
-            Analyze New Email
-        </a>
-        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">
-            View Dashboard
-        </a>
-    </div>
-</div>
 
-<!-- Detailed View Modal -->
-<div id="detailModal" class="modal hidden">
-    <div class="modal-content modal-large">
-        <span class="close-btn" onclick="closeDetailModal()">&times;</span>
-        <div id="detailContent">
-            <!-- Content loaded dynamically -->
-        </div>
+    <!-- PAGINATION -->
+    <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 2rem; align-items: center;">
+        <button id="prevBtn" class="btn-action btn-default" onclick="previousPage()" style="min-width: 100px;">
+            <i class="fas fa-chevron-left"></i> Previous
+        </button>
+        <span id="pageInfo" style="color: var(--gray-600);">Page 1</span>
+        <button id="nextBtn" class="btn-action btn-default" onclick="nextPage()" style="min-width: 100px;">
+            Next <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+
+    <!-- EXPORT SECTION -->
+    <div class="input-section" style="margin-top: 2rem; text-align: center;">
+        <button onclick="exportData()" class="btn-analyze" style="background: var(--success-green);">
+            <i class="fas fa-download"></i> Export History as CSV
+        </button>
     </div>
 </div>
 
-{% endblock %}
+<script>
+let currentPage = 1;
+const itemsPerPage = 10;
+let allAnalyses = [];
+let filteredAnalyses = [];
 
-{% block scripts %}
-<script src="{{ url_for('static', filename='history.js') }}"></script>
+async function loadHistory() {
+    try {
+        const response = await fetch('/api/analyses?limit=1000');
+        if (!response.ok) throw new Error('Failed to load history');
+        
+        allAnalyses = await response.json();
+        filteredAnalyses = [...allAnalyses];
+        updateStats();
+        displayPage(1);
+    } catch (error) {
+        console.error('Error loading history:', error);
+        document.getElementById('historyBody').innerHTML = `
+            <tr><td colspan="6" style="text-align: center; padding: 2rem; color: var(--danger-red);">
+                Error loading history: ${error.message}
+            </td></tr>
+        `;
+    }
+}
+
+function updateStats() {
+    document.getElementById('totalCount').textContent = allAnalyses.length;
+    
+    if (allAnalyses.length === 0) {
+        document.getElementById('avgRisk').textContent = '0%';
+        document.getElementById('highRiskCount').textContent = '0';
+        document.getElementById('safeCount').textContent = '0';
+        return;
+    }
+
+    const avgScore = allAnalyses.reduce((sum, a) => sum + a.risk_score, 0) / allAnalyses.length;
+    document.getElementById('avgRisk').textContent = Math.round(avgScore) + '%';
+    
+    const highRisk = allAnalyses.filter(a => ['High', 'Critical'].includes(a.risk_level)).length;
+    const safe = allAnalyses.filter(a => a.risk_level === 'Low').length;
+    
+    document.getElementById('highRiskCount').textContent = highRisk;
+    document.getElementById('safeCount').textContent = safe;
+}
+
+function displayPage(page) {
+    currentPage = page;
+    const start = (page - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+    const pageData = filteredAnalyses.slice(start, end);
+
+    if (pageData.length === 0) {
+        document.getElementById('historyBody').innerHTML = `
+            <tr><td colspan="6" style="text-align: center; padding: 2rem; color: var(--gray-500);">
+                No analyses found matching your filters
+            </td></tr>
+        `;
+        document.getElementById('pageInfo').textContent = `No results`;
+        document.getElementById('prevBtn').disabled = true;
+        document.getElementById('nextBtn').disabled = true;
+        return;
+    }
+
+    document.getElementById('historyBody').innerHTML = pageData.map(a => `
+        <tr>
+            <td>${new Date(a.timestamp).toLocaleString()}</td>
+            <td style="font-size: 0.9rem; max-width: 200px; overflow: hidden; text-overflow: ellipsis;">${a.sender || 'Unknown'}</td>
+            <td style="font-size: 0.9rem; max-width: 300px; overflow: hidden; text-overflow: ellipsis;">${a.subject || '(no subject)'}</td>
+            <td><strong>${Math.round(a.risk_score)}</strong></td>
+            <td><span class="badge ${a.risk_level.toLowerCase()}">${a.risk_level}</span></td>
+            <td>
+                <a href="#" onclick="viewDetails('${a.id}')" style="color: var(--primary-blue); text-decoration: none; font-size: 0.9rem;">
+                    View →
+                </a>
+            </td>
+        </tr>
+    `).join('');
+
+    const totalPages = Math.ceil(filteredAnalyses.length / itemsPerPage);
+    document.getElementById('pageInfo').textContent = `Page ${page} of ${totalPages}`;
+    document.getElementById('prevBtn').disabled = page <= 1;
+    document.getElementById('nextBtn').disabled = page >= totalPages;
+}
+
+function nextPage() {
+    const totalPages = Math.ceil(filteredAnalyses.length / itemsPerPage);
+    if (currentPage < totalPages) displayPage(currentPage + 1);
+}
+
+function previousPage() {
+    if (currentPage > 1) displayPage(currentPage - 1);
+}
+
+function applyFilters() {
+    const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+    const riskFilter = document.getElementById('riskFilter').value;
+
+    filteredAnalyses = allAnalyses.filter(a => {
+        const matchesSearch = !searchTerm || 
+            (a.sender || '').toLowerCase().includes(searchTerm) ||
+            (a.subject || '').toLowerCase().includes(searchTerm);
+        
+        const matchesRisk = !riskFilter || a.risk_level === riskFilter;
+        
+        return matchesSearch && matchesRisk;
+    });
+
+    displayPage(1);
+}
+
+function resetFilters() {
+    document.getElementById('searchInput').value = '';
+    document.getElementById('riskFilter').value = '';
+    applyFilters();
+}
+
+function viewDetails(id) {
+    alert('Detail view for analysis ' + id + ' coming soon!');
+}
+
+function exportData() {
+    if (filteredAnalyses.length === 0) {
+        alert('No data to export');
+        return;
+    }
+
+    let csv = 'Timestamp,Sender,Subject,Risk_Score,Risk_Level\n';
+    csv += filteredAnalyses.map(a => 
+        `"${new Date(a.timestamp).toLocaleString()}","${a.sender || ''}","${a.subject || ''}",${Math.round(a.risk_score)},"${a.risk_level}"`
+    ).join('\n');
+
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `phishing-history-${new Date().toISOString().split('T')[0]}.csv`;
+    a.click();
+}
+
+// Setup event listeners
+document.getElementById('searchInput').addEventListener('input', applyFilters);
+document.getElementById('riskFilter').addEventListener('change', applyFilters);
+
+// Load on page load
+document.addEventListener('DOMContentLoaded', loadHistory);
+</script>
 {% endblock %}
