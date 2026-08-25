@@ -189,3 +189,4 @@ support@banksecurity.com`;
 function closeSampleModal() {
     closeModal('sampleModal');
 }
+
