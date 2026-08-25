@@ -7,3 +7,4 @@ from .sender_detector import SenderDetector
 from .attachment_detector import AttachmentDetector
 
 __all__ = ['RegexDetector', 'KeywordDetector', 'URLDetector', 'SenderDetector', 'AttachmentDetector']
+
