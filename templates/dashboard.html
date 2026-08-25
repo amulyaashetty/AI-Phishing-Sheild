@@ -1,277 +1,213 @@
 {% extends "base.html" %}
 
-{% block title %}Learn - AI Phishing Shield{% endblock %}
+{% block header_title %}Dashboard{% endblock %}
+{% block header_subtitle %}Overview of phishing detection activity{% endblock %}
 
 {% block content %}
-<div class="education-container">
-    <h1>🎓 Phishing Education Guide</h1>
-    <p class="subtitle">Learn to recognize and avoid phishing attacks</p>
-    
-    <!-- Table of Contents -->
-    <nav class="education-nav">
-        <h3>Contents</h3>
-        <ul>
-            <li><a href="#what-is">What is Phishing?</a></li>
-            <li><a href="#types">Types of Phishing</a></li>
-            <li><a href="#indicators">How to Spot Phishing</a></li>
-            <li><a href="#protect">How to Protect Yourself</a></li>
-            <li><a href="#if-compromised">If Compromised</a></li>
-        </ul>
-    </nav>
-    
-    <!-- What is Phishing -->
-    <section id="what-is" class="education-section">
-        <h2>What is Phishing?</h2>
-        <p>
-            <strong>Phishing</strong> is a cyberattack where attackers pretend to be a trusted organization 
-            to trick you into revealing sensitive information or downloading malware.
-        </p>
-        
-        <div class="education-highlight">
-            <p>
-                The term "phishing" comes from "fishing" - attackers cast a wide net hoping to "catch" 
-                people who fall for their deception.
-            </p>
-        </div>
-        
-        <h3>Why are Phishing Attacks Dangerous?</h3>
-        <ul>
-            <li><strong>Identity Theft:</strong> Personal information used for fraud</li>
-            <li><strong>Financial Loss:</strong> Bank accounts emptied</li>
-            <li><strong>Malware Infection:</strong> Malicious software installed on your device</li>
-            <li><strong>Ransomware:</strong> Your files encrypted until you pay attackers</li>
-            <li><strong>Corporate Espionage:</strong> Company secrets stolen</li>
-            <li><strong>Business Disruption:</strong> Entire companies shut down</li>
-        </ul>
-    </section>
-    
-    <!-- Types of Phishing -->
-    <section id="types" class="education-section">
-        <h2>Types of Phishing Attacks</h2>
-        
-        <div class="type-card">
-            <h3>📧 Email Phishing</h3>
-            <p>Most common type. Fake emails impersonating banks, PayPal, Amazon, etc.</p>
-            <strong>Example:</strong>
-            <p class="example">
-                "Your account has been suspended. Click here to verify your identity."
-            </p>
-        </div>
-        
-        <div class="type-card">
-            <h3>📱 Smishing</h3>
-            <p>Phishing via SMS text messages.</p>
-            <strong>Example:</strong>
-            <p class="example">
-                "Your package is delayed. Click: bit.ly/xxx to reschedule delivery"
-            </p>
-        </div>
-        
-        <div class="type-card">
-            <h3>☎️ Vishing</h3>
-            <p>Phishing via voice calls. Attackers call pretending to be from banks or tech support.</p>
-            <strong>Example:</strong>
-            <p class="example">
-                "Hello, this is Amazon Security. Your account detected unusual activity. Press 1 to verify."
-            </p>
-        </div>
-        
-        <div class="type-card">
-            <h3>🔗 Spear Phishing</h3>
-            <p>Targeted phishing attacks on specific individuals using personal information.</p>
-            <strong>Why Dangerous:</strong>
-            <p class="example">
-                Uses your name, job title, company, and other details to seem legitimate.
-            </p>
-        </div>
-        
-        <div class="type-card">
-            <h3>🌐 Watering Hole</h3>
-            <p>Attackers compromise legitimate websites to distribute malware.</p>
-        </div>
-        
-        <div class="type-card">
-            <h3>🎣 CEO Fraud</h3>
-            <p>Attackers impersonate executives requesting urgent wire transfers or sensitive data.</p>
-        </div>
-    </section>
-    
-    <!-- How to Spot Phishing -->
-    <section id="indicators" class="education-section">
-        <h2>How to Spot Phishing Emails</h2>
-        
-        <div class="indicator-grid">
-            <div class="indicator-card suspicious">
-                <h4>🚨 Urgent Language</h4>
-                <ul>
-                    <li>"Act now"</li>
-                    <li>"Within 24 hours"</li>
-                    <li>"Your account will be closed"</li>
-                    <li>"Verify immediately"</li>
-                </ul>
-                <p><strong>Why?</strong> Urgency makes people act without thinking.</p>
-            </div>
-            
-            <div class="indicator-card suspicious">
-                <h4>🔐 Requests for Credentials</h4>
-                <ul>
-                    <li>"Confirm your password"</li>
-                    <li>"Enter your OTP"</li>
-                    <li>"Verify your social security number"</li>
-                </ul>
-                <p><strong>Why?</strong> Real companies NEVER ask for passwords via email.</p>
-            </div>
-            
-            <div class="indicator-card suspicious">
-                <h4>🌐 Suspicious Links</h4>
-                <ul>
-                    <li>Shortened URLs (bit.ly, tinyurl)</li>
-                    <li>Links that don't match the domain</li>
-                    <li>IP addresses instead of domain names</li>
-                    <li>Misspelled domains (amaz0n.com, not amazon.com)</li>
-                </ul>
-                <p><strong>Tip:</strong> Hover over links to see the real URL.</p>
-            </div>
-            
-            <div class="indicator-card suspicious">
-                <h4>📧 Suspicious Sender</h4>
-                <ul>
-                    <li>Generic greeting ("Dear User" not "Dear John")</li>
-                    <li>Sender email doesn't match company domain</li>
-                    <li>"noreply@" addresses for legitimate companies</li>
-                </ul>
-            </div>
-            
-            <div class="indicator-card suspicious">
-                <h4>✏️ Poor Grammar & Spelling</h4>
-                <ul>
-                    <li>Obvious spelling mistakes</li>
-                    <li>Awkward phrasing</li>
-                    <li>Mismatched formatting</li>
-                </ul>
-                <p><strong>Note:</strong> Modern AI-generated phishing might NOT have grammar errors.</p>
-            </div>
-            
-            <div class="indicator-card suspicious">
-                <h4>📎 Suspicious Attachments</h4>
-                <ul>
-                    <li>.exe files</li>
-                    <li>.zip files with executables</li>
-                    <li>Double extensions (.pdf.exe)</li>
-                    <li>Unexpected attachments from known contacts</li>
-                </ul>
+<div class="dashboard-container">
+    <!-- Welcome Box -->
+    <div class="welcome-box">
+        <div class="welcome-content">
+            <h2>Welcome to PhishShield</h2>
+            <p>Your intelligent phishing detection and prevention system powered by AI</p>
+            <div class="welcome-actions">
+                <a href="{{ url_for('analyzer') }}" class="btn btn-primary">
+                    <i class="fas fa-envelope"></i> Analyze Email
+                </a>
+                <a href="{{ url_for('history') }}" class="btn btn-secondary">
+                    <i class="fas fa-history"></i> View History
+                </a>
             </div>
         </div>
-    </section>
-    
-    <!-- How to Protect Yourself -->
-    <section id="protect" class="education-section">
-        <h2>How to Protect Yourself</h2>
-        
-        <div class="protection-checklist">
-            <div class="check-item">
-                <h3>✓ Verify the Sender</h3>
-                <ul>
-                    <li>Check sender email address carefully</li>
-                    <li>Look for slight misspellings (amaz0n vs amazon)</li>
-                    <li>Contact the company directly using official phone number or website</li>
-                </ul>
+        <div class="welcome-icon">
+            <i class="fas fa-shield-alt"></i>
+        </div>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon">📧</div>
+            <div class="stat-label">Total Emails</div>
+            <div class="stat-value" id="stat-total">0</div>
+            <div class="stat-change up" id="stat-total-change">No history yet</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">🎯</div>
+            <div class="stat-label">Detection Rate</div>
+            <div class="stat-value" id="stat-detection">0%</div>
+            <div class="stat-change up">Phishing detected</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">⚠️</div>
+            <div class="stat-label">High Risk</div>
+            <div class="stat-value" id="stat-high-risk">0</div>
+            <div class="stat-change down">Flagged emails</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">✅</div>
+            <div class="stat-label">Safe Emails</div>
+            <div class="stat-value" id="stat-safe">0</div>
+            <div class="stat-change up">Verified safe</div>
+        </div>
+    </div>
+
+    <!-- Detector Cards -->
+    <h2 style="font-size: 1.5rem; margin-bottom: 1.5rem; margin-top: 2rem;">Get Started</h2>
+    <div class="detector-grid">
+        <!-- Email Detector -->
+        <div class="detector-card detector-email">
+            <div class="detector-card-header">
+                <div class="detector-icon">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div>
+                    <div class="detector-title">Email Detector</div>
+                    <div class="detector-subtitle">Comprehensive email analysis</div>
+                </div>
             </div>
-            
-            <div class="check-item">
-                <h3>✓ Don't Click Suspicious Links</h3>
-                <ul>
-                    <li>Hover over links to see real destination</li>
-                    <li>If unsure, visit the website directly by typing the URL</li>
-                    <li>Never click shortened URLs in emails</li>
+            <div class="detector-card-body">
+                <ul class="detector-features">
+                    <li>Sender verification</li>
+                    <li>URL analysis</li>
+                    <li>Attachment scanning</li>
+                    <li>AI-powered detection</li>
+                    <li>Risk scoring</li>
                 </ul>
-            </div>
-            
-            <div class="check-item">
-                <h3>✓ Never Share Credentials via Email</h3>
-                <ul>
-                    <li>Banks and companies NEVER ask for passwords by email</li>
-                    <li>Real companies have secure login pages</li>
-                    <li>When in doubt, call the official number</li>
-                </ul>
-            </div>
-            
-            <div class="check-item">
-                <h3>✓ Enable Multi-Factor Authentication (MFA)</h3>
-                <ul>
-                    <li>Adds extra security layer</li>
-                    <li>Even if password is stolen, account is protected</li>
-                    <li>Use authenticator apps, not SMS when possible</li>
-                </ul>
-            </div>
-            
-            <div class="check-item">
-                <h3>✓ Use Strong Passwords</h3>
-                <ul>
-                    <li>At least 12 characters</li>
-                    <li>Mix of uppercase, lowercase, numbers, symbols</li>
-                    <li>Different password for each account</li>
-                    <li>Use password manager</li>
-                </ul>
-            </div>
-            
-            <div class="check-item">
-                <h3>✓ Keep Software Updated</h3>
-                <ul>
-                    <li>Enable automatic updates</li>
-                    <li>Update browser regularly</li>
-                    <li>Keep antivirus software current</li>
-                </ul>
-            </div>
-            
-            <div class="check-item">
-                <h3>✓ Be Skeptical</h3>
-                <ul>
-                    <li>If something feels off, it probably is</li>
-                    <li>Take time before clicking or opening files</li>
-                    <li>Trust your instincts</li>
-                </ul>
+                <a href="{{ url_for('analyzer') }}" class="btn-block">
+                    <i class="fas fa-arrow-right"></i> Start Analysis
+                </a>
             </div>
         </div>
-    </section>
-    
-    <!-- If Compromised -->
-    <section id="if-compromised" class="education-section">
-        <h2>If You've Been Compromised</h2>
-        
-        <div class="action-list">
-            <h3>Immediate Actions:</h3>
-            <ol>
-                <li><strong>Change Your Password Immediately</strong> - Use a different, secure computer</li>
-                <li><strong>Run Antivirus Scan</strong> - Check for malware</li>
-                <li><strong>Contact Your Bank</strong> - Freeze accounts if financial info was compromised</li>
-                <li><strong>Monitor Your Accounts</strong> - Watch for unauthorized transactions</li>
-                <li><strong>Check Credit Reports</strong> - Monitor for identity theft</li>
-                <li><strong>Report to Authorities</strong> - File report with IC3.gov (in USA)</li>
-                <li><strong>Report to Email Provider</strong> - Mark email as phishing/spam</li>
-                <li><strong>Notify Contacts</strong> - If email account compromised, inform your contacts</li>
-            </ol>
+
+        <!-- SMS Detector -->
+        <div class="detector-card detector-sms">
+            <div class="detector-card-header">
+                <div class="detector-icon">
+                    <i class="fas fa-sms"></i>
+                </div>
+                <div>
+                    <div class="detector-title">SMS Detector</div>
+                    <div class="detector-subtitle">Text message phishing detection</div>
+                </div>
+            </div>
+            <div class="detector-card-body">
+                <ul class="detector-features">
+                    <li>Link analysis</li>
+                    <li>Urgency detection</li>
+                    <li>Spoofing detection</li>
+                    <li>Offer validation</li>
+                    <li>Instant feedback</li>
+                </ul>
+                <button class="btn-block" disabled title="Coming soon">
+                    <i class="fas fa-lock"></i> Coming Soon
+                </button>
+            </div>
         </div>
-    </section>
-    
-    <!-- Resources -->
-    <section class="education-section resources">
-        <h2>Additional Resources</h2>
-        <div class="resource-links">
-            <a href="https://www.ic3.gov" target="_blank" class="resource-link">
-                Internet Crime Complaint Center (IC3)
-            </a>
-            <a href="https://www.fbi.gov/investigate/cyber" target="_blank" class="resource-link">
-                FBI Cyber Division
-            </a>
-            <a href="https://www.cisa.gov" target="_blank" class="resource-link">
-                CISA - Cybersecurity & Infrastructure Security Agency
-            </a>
-            <a href="https://www.consumer.ftc.gov/articles/how-recognize-and-report-spam-text-messages" target="_blank" class="resource-link">
-                FTC - Identify and Report Phishing
-            </a>
+
+        <!-- URL Detector -->
+        <div class="detector-card detector-url">
+            <div class="detector-card-header">
+                <div class="detector-icon">
+                    <i class="fas fa-link"></i>
+                </div>
+                <div>
+                    <div class="detector-title">URL Checker</div>
+                    <div class="detector-subtitle">Website and URL validation</div>
+                </div>
+            </div>
+            <div class="detector-card-body">
+                <ul class="detector-features">
+                    <li>Domain legitimacy</li>
+                    <li>SSL verification</li>
+                    <li>Reputation scoring</li>
+                    <li>Brand impersonation</li>
+                    <li>Redirects tracking</li>
+                </ul>
+                <button class="btn-block" disabled title="Coming soon">
+                    <i class="fas fa-lock"></i> Coming Soon
+                </button>
+            </div>
         </div>
-    </section>
+    </div>
+
+    <!-- Recent Analyses Section -->
+    <div style="margin-top: 3rem;">
+        <h2 style="font-size: 1.5rem; margin-bottom: 1.5rem;">Recent Analyses</h2>
+        <div class="history-container">
+            <table class="history-table">
+                <thead>
+                    <tr>
+                        <th>Date & Time</th>
+                        <th>Risk Level</th>
+                        <th>Score</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody id="recentAnalysesBody">
+                    <tr>
+                        <td colspan="4" style="text-align: center; padding: 2rem; color: var(--gray-500);">
+                            No analyses yet. Start by analyzing an email!
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
+<script>
+    // Load dashboard stats
+    async function loadDashboardStats() {
+        try {
+            const response = await fetch('/api/stats');
+            if (!response.ok) throw new Error('Failed to load stats');
+            
+            const data = await response.json();
+            
+            // Update stat cards
+            document.getElementById('stat-total').textContent = data.total || 0;
+            document.getElementById('stat-detection').textContent = (data.detection_rate || 0) + '%';
+            document.getElementById('stat-high-risk').textContent = data.high_risk || 0;
+            document.getElementById('stat-safe').textContent = data.safe || 0;
+            
+            // Load recent analyses
+            loadRecentAnalyses();
+        } catch (error) {
+            console.error('Error loading stats:', error);
+        }
+    }
+
+    async function loadRecentAnalyses() {
+        try {
+            const response = await fetch('/api/analyses?limit=5');
+            if (!response.ok) throw new Error('Failed to load analyses');
+            
+            const analyses = await response.json();
+            const tbody = document.getElementById('recentAnalysesBody');
+            
+            if (analyses.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 2rem; color: var(--gray-500);">No analyses yet. Start by analyzing an email!</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = analyses.map(a => `
+                <tr>
+                    <td>${new Date(a.timestamp).toLocaleString()}</td>
+                    <td><span class="badge ${a.risk_level.toLowerCase()}">${a.risk_level}</span></td>
+                    <td><strong>${Math.round(a.risk_score)}</strong>/100</td>
+                    <td><a href="#" style="color: var(--primary-blue); text-decoration: none;">View Details →</a></td>
+                </tr>
+            `).join('');
+        } catch (error) {
+            console.error('Error loading analyses:', error);
+        }
+    }
+
+    // Load on page load
+    document.addEventListener('DOMContentLoaded', loadDashboardStats);
+</script>
 {% endblock %}
